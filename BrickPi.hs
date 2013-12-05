@@ -1,19 +1,14 @@
-import Data.Bits
-import qualified Data.ByteString.Char8 as B
-import System.Hardware.Serialport
 
-port :: String
-port = "/dev/ttyAMA0"
-
-brickPiSetup :: () -> IO SerialPort
-brickPiSetup () = openSerial port defaultSerialSettings
-
-close :: SerialPort -> IO ()
-close = closeSerial 
-         
+import Data.Char
+import BrickPi_Serial
 
 
-main :: IO()
-main = do sp <- brickPiSetup ()
-          close sp
+
+main = do h <- serialOpen "/dev/ttyAMA0" 500000
+          print (show h)
+          sequence_ (map (serialPutchar h) (map chr [1,218,4,3,132,28,50]))
+          getLine
+          sequence_ (map (serialPutchar h) (map chr [1,2,4,3,140,60,50]))
+          getLine
+          serialClose h
           return ()
