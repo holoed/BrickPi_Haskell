@@ -15,7 +15,9 @@ category:            RaspberryPi
 build-type:          Simple
 cabal-version:       >=1.8
 
-library
-  exposed-modules:     BrickPi_Serial, BrickPi
-  -- other-modules:       
+executable BrickPi
+  main-is: BrickPi.hs
+  other-modules: BrickPi_Serial
+  extensions:	   ForeignFunctionInterface
+  extra-libraries:     wiringPi       
   build-depends:       base ==4.5.*
